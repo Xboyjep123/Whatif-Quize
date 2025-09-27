@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>What If? Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: darkred;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      margin: 20px;
+    }
+
+    button {
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #d63031;
+    }
+
+    video {
+      margin-top: 30px;
+      width: 80%;
+      max-width: 600px;
+      display: none; /* hidden at first */
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: darkblue;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>What if?</h1>
+  <p>Choose one and see what happens...</p>
+
+  <div class="choices">
+    <button onclick="playVideo('video1','Hindi pala siya... Better luck next time!')">Hindi pala siya</button>
+    <button onclick="playVideo('video2','Tama ka, siya na nga 💕')">Siya na nga</button>
+    <button onclick="playVideo('video3','Naging tayo pala 😍')">Naging tayo pala</button>
+  </div>
+
+  <!-- Videos -->
+  <video id="video1" controls>
+    <source src="video1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <video id="video2" controls>
+    <source src="https://video-link-generator.replit.app/v/y28kfnnsbjd6knv40s7gdb" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <video id="video3" controls>
+    <source src="video3.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Result message -->
+  <div id="result" class="result"></div>
+
+  <script>
+    function playVideo(id, message) {
+      // Hide all videos and stop them
+      document.querySelectorAll("video").forEach(v => {
+        v.style.display = "none";
+        v.pause();
+        v.currentTime = 0;
+      });
+
+      // Hide result
+      document.getElementById("result").style.display = "none";
+
+      // Show selected video
+      let video = document.getElementById(id);
+      video.style.display = "block";
+      video.play();
+
+      // Show result after video ends
+      video.onended = function() {
+        let result = document.getElementById("result");
+        result.innerText = message;
+        result.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
