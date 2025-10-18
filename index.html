@@ -1,114 +1,168 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+<html lang="en">
 <head>
-  <title>What If? Quiz</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java Variables & Data Types — 30-item Quiz</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
-      text-align: center;
-      padding: 40px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      color: darkred;
-    }
-
-    p {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    .choices {
-      margin: 20px;
-    }
-
-    button {
-      background-color: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      margin: 10px;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background-color: #d63031;
-    }
-
-    video {
-      margin-top: 30px;
-      width: 80%;
-      max-width: 600px;
-      display: none; /* hidden at first */
-    }
-
-    .result {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: darkblue;
-      display: none;
-    }
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#5eead4;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.45;margin:0;background:linear-gradient(180deg,#071025 0%, #07172b 60%);color:#e6eef6;padding:32px}
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+    .card{background:var(--card);padding:22px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);}
+    .controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+    button.btn{background:var(--accent);border:none;color:#042025;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .questions{margin-top:8px}
+    .q{background:var(--glass);padding:14px;border-radius:10px;margin-bottom:10px}
+    .q h3{margin:0 0 8px;font-size:15px}
+    .choices{display:flex;flex-direction:column;gap:8px}
+    .choice{display:flex;align-items:center;gap:10px}
+    .choice input{accent-color:var(--accent)}
+    footer.result{margin-top:16px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(9,20,31,0.6), rgba(6,12,18,0.5));display:flex;align-items:center;justify-content:space-between}
+    .score{font-weight:700}
+    .correct{background:rgba(46,204,113,0.12);border-left:4px solid rgba(46,204,113,0.25);padding:6px;border-radius:6px}
+    .wrong{background:rgba(255,99,132,0.06);border-left:4px solid rgba(255,99,132,0.20);padding:6px;border-radius:6px}
+    .answer-key{margin-top:12px;display:none}
+    .meta{font-size:13px;color:var(--muted)}
+    @media (max-width:600px){body{padding:16px}}
   </style>
 </head>
 <body>
-  <h1>What if?</h1>
-  <p>Choose one and see what happens...</p>
-
-  <div class="choices">
-    <button onclick="playVideo('video1','Hindi pala siya... Better luck next time!')">Hindi pala siya</button>
-    <button onclick="playVideo('video2','Tama ka, siya na nga 💕')">Siya na nga</button>
-    <button onclick="playVideo('video3','Naging tayo pala 😍')">Naging tayo pala</button>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Java Variables & Data Types — 30-item Quiz</h1>
+        <p class="lead">Mid-term practice quiz — answer all 30 questions and submit to see your score.</p>
+      </div>
+      <div class="meta">Created for: Jepherson Tunghay</div>
+    </header><div class="card">
+  <div class="controls">
+    <button id="submitBtn" class="btn">Submit Answers</button>
+    <button id="resetBtn" class="ghost">Reset</button>
+    <button id="showKeyBtn" class="ghost">Toggle Answer Key</button>
   </div>
 
-  <!-- Videos -->
-  <video id="video1" controls>
-    <source src="video1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <form id="quizForm" autocomplete="off">
+    <div id="questions" class="questions"></div>
+  </form>
 
-  <video id="video2" controls>
-    <source src="https://video-link-generator.replit.app/v/y28kfnnsbjd6knv40s7gdb" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div id="result" class="result" style="display:none">
+    <div>
+      <div class="score">Score: <span id="scoreVal">0</span>/30</div>
+      <div class="meta" id="percent"></div>
+    </div>
+    <div id="passFail" class="meta"></div>
+  </div>
 
-  <video id="video3" controls>
-    <source src="https://drive.google.com/uc?export=download&id=1YL-glD9niL7ggHDkGSjyR3okiHz-B5fl" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div id="answerKey" class="answer-key card"></div>
 
-  <!-- Result message -->
-  <div id="result" class="result"></div>
+</div>
 
-  <script>
-    function playVideo(id, message) {
-      // Hide all videos and stop them
-      document.querySelectorAll("video").forEach(v => {
-        v.style.display = "none";
-        v.pause();
-        v.currentTime = 0;
+  </div>  <script>
+    const questions = [
+      {q: "What is a variable in Java?", choices:["A fixed value that cannot change","A name assigned to a memory location to store a value","A keyword used for looping","A method for printing data"], answer:1},
+      {q: "Which of the following correctly declares a variable?", choices:["int = age 18;","age int = 18;","int age = 18;","int 18 = age;"], answer:2},
+      {q: "What does the term data type mean?", choices:["A command used to repeat instructions","Defines the type of value a variable can store","A method for creating output","A loop in Java"], answer:1},
+      {q: "Which of the following is a valid variable name?", choices:["1stNumber","class","total value","_totalValue"], answer:3},
+      {q: "Variable names in Java are _______.", choices:["Not case-sensitive","Case-sensitive","Always uppercase","Automatically capitalized"], answer:1},
+      {q: "Which of the following is NOT allowed as a variable name?", choices:["_sum","$amount","total$","if"], answer:3},
+      {q: "What is the correct syntax for declaring multiple variables of the same type?", choices:["int x = 1, y = 2, z = 3;","int x = 1; int y = 2; int z = 3","x = 1, y = 2, z = 3;","int (x=1, y=2, z=3);"], answer:0},
+      {q: "Java is a _______ typed language.", choices:["Dynamically","Loosely","Statically","Weakly"], answer:2},
+      {q: "Which keyword is used to make a variable constant?", choices:["final","const","fixed","static"], answer:0},
+      {q: "Which of the following is a primitive data type?", choices:["String","Array","int","Class"], answer:2},
+      {q: "What is the size of a byte data type?", choices:["4 bits","8 bits","16 bits","32 bits"], answer:1},
+      {q: "The boolean data type can store _______.", choices:["Only true or false","Any integer","Decimal numbers","Characters"], answer:0},
+      {q: "Which data type is most commonly used for integers?", choices:["short","long","int","byte"], answer:2},
+      {q: "Which of these data types requires an f at the end of its value?", choices:["int","float","double","char"], answer:1},
+      {q: "What is the correct way to declare a character variable?", choices:["char letter = \"A\";","char letter = 'A';","String letter = A;","character letter = 'A';"], answer:1},
+      {q: "What is the output of this code: boolean isPassed = true; System.out.println(isPassed);", choices:["passed","1","true","yes"], answer:2},
+      {q: "Which of the following is NOT a primitive data type?", choices:["boolean","double","String","char"], answer:2},
+      {q: "Which of these stores a memory address rather than a value?", choices:["Primitive data types","Non-primitive data types","Constant variables","Integers"], answer:1},
+      {q: "Which of the following is a non-primitive data type?", choices:["float","boolean","String","char"], answer:2},
+      {q: "Example of type casting from smaller to larger data type:", choices:["double num = (int)10.5;","int num = 10; double result = num;","int num = (double)10;","double num = 10; int result = num;"], answer:1},
+      {q: "What is narrowing casting?", choices:["Converting from smaller to larger data type","Automatically changing data type","Manually converting larger to smaller data type","Adding variables together"], answer:2},
+      {q: "What will happen if you try to modify a final variable?", choices:["It updates successfully","It prints a warning","It causes a compile-time error","It automatically resets"], answer:2},
+      {q: "Which symbol is used for single characters in Java?", choices:["\" \"","' '","( )","{ }"], answer:1},
+      {q: "What is the value range of byte?", choices:["-255 to 255","-128 to 127","-100 to 100","-32768 to 32767"], answer:1},
+      {q: "Which of these is a correct example of a String variable?", choices:["String name = \"Stephen\";","string name = Stephen;","char name = \"Stephen\";","String name = 'Stephen';"], answer:0},
+      {q: "What is the output of System.out.println(\"Age: \" + 18);?", choices:["Age: +18","Age: 18","18","Error"], answer:1},
+      {q: "The keyword final is used for _______.", choices:["Declaring constant variables","Creating loops","Casting data","Declaring functions"], answer:0},
+      {q: "Which line correctly declares and initializes multiple strings?", choices:["String fname, lname, mname = \"John\", \"Doe\", \"P\";","String fname = \"John\", lname = \"Doe\", mname = \"P\";","String (fname = \"John\", lname = \"Doe\", mname = \"P\");","String \"John\", \"Doe\", \"P\";"], answer:1},
+      {q: "The System.out.println() statement is used to _______.", choices:["Input data","Store data","Output/display data","Delete data"], answer:2},
+      {q: "Which of the following statements best describes Java’s type system?", choices:["Variables can change type at runtime","All variables must have a declared type before use","Java automatically assigns data types","Data types are optional"], answer:1}
+    ];
+
+    const questionsContainer = document.getElementById('questions');
+    const quizForm = document.getElementById('quizForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const showKeyBtn = document.getElementById('showKeyBtn');
+    const resultEl = document.getElementById('result');
+    const scoreVal = document.getElementById('scoreVal');
+    const percentEl = document.getElementById('percent');
+    const passFail = document.getElementById('passFail');
+    const answerKeyEl = document.getElementById('answerKey');
+
+    function renderQuestions(){
+      questions.forEach((item,i)=>{
+        const wrapper = document.createElement('div');
+        wrapper.className = 'q';
+        wrapper.innerHTML = `
+          <h3>Q${i+1}. ${item.q}</h3>
+          <div class="choices">
+            ${item.choices.map((c, idx)=>`
+              <label class="choice"><input type="radio" name="q${i}" value="${idx}"> <span>${String.fromCharCode(65+idx)}. ${c}</span></label>
+            `).join('')}
+          </div>
+        `;
+        questionsContainer.appendChild(wrapper);
+      });
+    }
+
+    function grade(){
+      const formData = new FormData(quizForm);
+      let score = 0;
+      // Clear previous highlights
+      document.querySelectorAll('.q').forEach(el=>el.classList.remove('correct','wrong'));
+
+      questions.forEach((item,i)=>{
+        const ans = formData.get('q'+i);
+        const qEl = document.getElementsByName('q'+i);
+        if(ans !== null && Number(ans) === item.answer) score++;
+
+        // highlight each question
+        const qWrapper = document.querySelectorAll('.q')[i];
+        if(ans === null){ qWrapper.classList.add('wrong'); }
+        else if(Number(ans) === item.answer){ qWrapper.classList.add('correct'); }
+        else { qWrapper.classList.add('wrong'); }
       });
 
-      // Hide result
-      document.getElementById("result").style.display = "none";
+      scoreVal.textContent = score;
+      const pct = Math.round((score / questions.length) * 100);
+      percentEl.textContent = pct + '%';
+      passFail.textContent = pct >= 75 ? 'Status: Passed 🎉' : 'Status: Review needed';
+      resultEl.style.display = 'flex';
 
-      // Show selected video
-      let video = document.getElementById(id);
-      video.style.display = "block";
-      video.play();
-
-      // Show result after video ends
-      video.onended = function() {
-        let result = document.getElementById("result");
-        result.innerText = message;
-        result.style.display = "block";
-      }
+      // build answer key
+      buildAnswerKey();
     }
-  </script>
-</body>
+
+    function buildAnswerKey(){
+      answerKeyEl.innerHTML = '<h3>Answer Key</h3>' + questions.map((q,i)=>{
+        return `<div style="margin:8px 0;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02)"><strong>Q${i+1}.</strong> ${q.q}<div class="meta">Correct: ${String.fromCharCode(65+q.answer)}. ${q.choices[q.answer]}</div></div>`;
+      }).join('');
+    }
+
+    submitBtn.addEventListener('click', (e)=>{ e.preventDefault(); grade(); window.scrollTo({top:0, behavior:'smooth'}); });
+    resetBtn.addEventListener('click', (e)=>{ e.preventDefault(); quizForm.reset(); resultEl.style.display='none'; answerKeyEl.style.display='none'; document.querySelectorAll('.q').forEach(el=>el.classList.remove('correct','wrong')); });
+    showKeyBtn.addEventListener('click', (e)=>{ e.preventDefault(); if(answerKeyEl.innerHTML.trim()==='') buildAnswerKey(); answerKeyEl.style.display = answerKeyEl.style.display === 'block' ? 'none' : 'block'; answerKeyEl.scrollIntoView({behavior:'smooth'}); });
+
+    // initial render
+    renderQuestions();
+  </script></body>
 </html>
